@@ -16,12 +16,10 @@
                 <a aria-expanded="false" class="" data-bs-toggle="collapse" href="#dashboard">
                     <i class="iconoir-home-alt"></i>
                     داشبورد
-                    <span class="badge text-primary-dark bg-primary-300 badge-notification ms-2">
-                        2
-                    </span>
+
                 </a>
                 <ul class="collapse" id="dashboard">
-                    <li><a href="/dashboard">نمای کلی</a></li>
+                    <li><a href="{{ route('admin.dashboard.index') }}">نمای کلی</a></li>
                     <li><a href="/reports">گزارش‌ها</a></li>
                 </ul>
             </li>

@@ -109,20 +109,13 @@
             <div class="col-md-9 col-12">
               <div class="footer-text">
                 <p class="f-w-500 mb-0">
-                  کپی‌رایت ۲۰۲۵ © قالب اکسلیت. تمامی حقوق محفوظ است 💖
-                  <a class="f-w-600 text-primary" href="#">ورژن 1.1.0</a>
+                  کپی‌رایت ۲۰۲۵ © خانه نواوری اصفهان. تمامی حقوق محفوظ است 💖
+                  <a class="f-w-600 text-primary" href="https://fadaee.dev">ورژن 1.1.0 طراحی و توسعه با آرش فدایی</a>
                   ✨
                 </p>
               </div>
             </div>
-            <div class="col-md-3">
-              <div class="footer-text text-end">
-                <a href="https://www.rtl-theme.com/dashboard/#/ticket">
-                  <i class="ti ti-headset"></i>
-                  نیاز به کمک دارید؟
-                </a>
-              </div>
-            </div>
+
           </div>
         </div>
       </footer>
