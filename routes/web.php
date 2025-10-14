@@ -27,6 +27,12 @@ use App\Livewire\Admin\MeetingRoom\Index as MeetingRoomIndex;
 use App\Livewire\Admin\MeetingRoom\Create as MeetingRoomCreate;
 use App\Livewire\Admin\MeetingReservation\Create as MeetingReservationCreate;
 use App\Livewire\Admin\MeetingReservation\Index as MeetingReservationIndex;
+use App\Livewire\Admin\Transaction\Index as TransactionIndex;
+use App\Livewire\Admin\Transaction\Create as TransactionCreate;
+use App\Livewire\Admin\Discount\Index as DiscountIndex;
+use App\Livewire\Admin\Discount\Create as DiscountCreate;
+use App\Livewire\Admin\Notification\Index as NotificationIndex;
+use App\Livewire\Admin\Notification\Create as NotificationCreate;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -87,3 +93,15 @@ Route::get('/meeting-reservations/create', MeetingReservationCreate::class)->nam
 Route::get('/private-rooms', PrivateRoomIndex::class)->name('admin.private_rooms.index');
 Route::get('/private-rooms/create', PrivateRoomCreate::class)->name('admin.private_rooms.create');
 Route::get('/private-rooms/{privateRoom}/edit', PrivateRoomEdit::class)->name('admin.private_rooms.edit');
+
+// Transactions
+Route::get('/transactions', TransactionIndex::class)->name('admin.transactions.index');
+Route::get('/transactions/create', TransactionCreate::class)->name('admin.transactions.create');
+
+// Discounts
+Route::get('/discounts', DiscountIndex::class)->name('admin.discounts.index');
+Route::get('/discounts/create', DiscountCreate::class)->name('admin.discounts.create');
+
+// Notifications
+Route::get('/notifications', NotificationIndex::class)->name('admin.notifications.index');
+Route::get('/notifications/create', NotificationCreate::class)->name('admin.notifications.create');

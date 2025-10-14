@@ -102,33 +102,33 @@
                 </ul>
             </li>
             <li>
-                <a aria-expanded="false" class="" data-bs-toggle="collapse" href="#transactions">
+                <a aria-expanded="{{ request()->routeIs('admin.transactions.*') ? 'true' : 'false' }}" class="" data-bs-toggle="collapse" href="#transactions">
                     <i class="iconoir-credit-card"></i>
                     تراکنش‌ها
                 </a>
-                <ul class="collapse" id="transactions" data-bs-parent="#app-simple-bar">
-                    <li><a href="/transactions">لیست تراکنش‌ها</a></li>
-                    <li><a href="/transactions/create">افزودن تراکنش</a></li>
+                <ul class="collapse {{ request()->routeIs('admin.transactions.*') ? 'show' : '' }}" id="transactions" data-bs-parent="#app-simple-bar">
+                    <li><a href="{{ route('admin.transactions.index') }}">لیست تراکنش‌ها</a></li>
+                    <li><a href="{{ route('admin.transactions.create') }}">افزودن تراکنش</a></li>
                 </ul>
             </li>
             <li>
-                <a aria-expanded="false" class="" data-bs-toggle="collapse" href="#discounts">
+                <a aria-expanded="{{ request()->routeIs('admin.discounts.*') ? 'true' : 'false' }}" class="" data-bs-toggle="collapse" href="#discounts">
                     <i class="iconoir-percentage-circle"></i>
                     تخفیف‌ها
                 </a>
-                <ul class="collapse" id="discounts" data-bs-parent="#app-simple-bar">
-                    <li><a href="/discounts">لیست تخفیف‌ها</a></li>
-                    <li><a href="/discounts/create">افزودن تخفیف</a></li>
+                <ul class="collapse {{ request()->routeIs('admin.discounts.*') ? 'show' : '' }}" id="discounts" data-bs-parent="#app-simple-bar">
+                    <li><a href="{{ route('admin.discounts.index') }}">لیست تخفیف‌ها</a></li>
+                    <li><a href="{{ route('admin.discounts.create') }}">افزودن تخفیف</a></li>
                 </ul>
             </li>
             <li>
-                <a aria-expanded="false" class="" data-bs-toggle="collapse" href="#notifications">
+                <a aria-expanded="{{ request()->routeIs('admin.notifications.*') ? 'true' : 'false' }}" class="" data-bs-toggle="collapse" href="#notifications">
                     <i class="iconoir-bell"></i>
                     اعلان‌ها
                 </a>
-                <ul class="collapse" id="notifications" data-bs-parent="#app-simple-bar">
-                    <li><a href="/notifications">لیست اعلان‌ها</a></li>
-                    <li><a href="/notifications/create">ارسال اعلان</a></li>
+                <ul class="collapse {{ request()->routeIs('admin.notifications.*') ? 'show' : '' }}" id="notifications" data-bs-parent="#app-simple-bar">
+                    <li><a href="{{ route('admin.notifications.index') }}">لیست اعلان‌ها</a></li>
+                    <li><a href="{{ route('admin.notifications.create') }}">ارسال اعلان</a></li>
                 </ul>
             </li>
             <li>
