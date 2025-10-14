@@ -27,45 +27,45 @@
                 <span>مدیریت</span>
             </li>
             <li>
-                <a aria-expanded="false" class="" data-bs-toggle="collapse" href="#branches">
+                <a aria-expanded="{{ request()->routeIs('admin.branches.*') ? 'true' : 'false' }}" class="" data-bs-toggle="collapse" href="#branches">
                     <i class="iconoir-building"></i>
                     شعبه‌ها
                 </a>
-                <ul class="collapse" id="branches">
-                    <li><a href="/branches">لیست شعبه‌ها</a></li>
-                    <li><a href="/branches/create">افزودن شعبه</a></li>
+                <ul class="collapse {{ request()->routeIs('admin.branches.*') ? 'show' : '' }}" id="branches" data-bs-parent="#app-simple-bar">
+                    <li><a href="{{ route('admin.branches.index') }}">لیست شعبه‌ها</a></li>
+                    <li><a href="{{ route('admin.branches.create') }}">افزودن شعبه</a></li>
                 </ul>
             </li>
             <li>
-                <a aria-expanded="false" class="" data-bs-toggle="collapse" href="#users">
+                <a aria-expanded="{{ request()->routeIs('admin.users.*') ? 'true' : 'false' }}" class="" data-bs-toggle="collapse" href="#users">
                     <i class="iconoir-user"></i>
                     کاربران
                 </a>
-                <ul class="collapse" id="users">
-                    <li><a href="/users">لیست کاربران</a></li>
-                    <li><a href="/users/create">افزودن کاربر</a></li>
+                <ul class="collapse {{ request()->routeIs('admin.users.*') ? 'show' : '' }}" id="users" data-bs-parent="#app-simple-bar">
+                    <li><a href="{{ route('admin.users.index') }}">لیست کاربران</a></li>
+                    <li><a href="{{ route('admin.users.create') }}">افزودن کاربر</a></li>
                 </ul>
             </li>
             <li>
-                <a aria-expanded="false" class="" data-bs-toggle="collapse" href="#subscriptions">
+                <a aria-expanded="{{ request()->routeIs('admin.subscriptions.*') ? 'true' : 'false' }}" class="" data-bs-toggle="collapse" href="#subscriptions">
                     <i class="iconoir-ticket"></i>
                     اشتراک‌ها
                 </a>
-                <ul class="collapse" id="subscriptions">
-                    <li><a href="/subscriptions">لیست اشتراک‌ها</a></li>
-                    <li><a href="/subscriptions/create">افزودن اشتراک</a></li>
-                    <li><a href="/subscription-types">انواع اشتراک</a></li>
-                    <li><a href="/subscription-types/create">افزودن نوع اشتراک</a></li>
+                <ul class="collapse {{ request()->routeIs('admin.subscriptions.*') ? 'show' : '' }}" id="subscriptions" data-bs-parent="#app-simple-bar">
+                    <li><a href="{{ route('admin.subscriptions.index') }}">لیست اشتراک‌ها</a></li>
+                    <li><a href="{{ route('admin.subscriptions.create') }}">افزودن اشتراک</a></li>
+                    <li><a href="{{ route('admin.subscription_types.index') }}">انواع اشتراک</a></li>
+                    <li><a href="{{ route('admin.subscription_types.create') }}">افزودن نوع اشتراک</a></li>
                 </ul>
             </li>
             <li>
-                <a aria-expanded="false" class="" data-bs-toggle="collapse" href="#desks">
+                <a aria-expanded="{{ request()->routeIs('admin.desks.*') ? 'true' : 'false' }}" class="" data-bs-toggle="collapse" href="#desks">
                     <i class="iconoir-desk"></i>
                     میزها
                 </a>
-                <ul class="collapse" id="desks">
-                    <li><a href="/desks">لیست میزها</a></li>
-                    <li><a href="/desks/create">افزودن میز</a></li>
+                <ul class="collapse {{ request()->routeIs('admin.desks.*') ? 'show' : '' }}" id="desks" data-bs-parent="#app-simple-bar">
+                    <li><a href="{{ route('admin.desks.index') }}">لیست میزها</a></li>
+                    <li><a href="{{ route('admin.desks.create') }}">افزودن میز</a></li>
                     <li><a href="/flexible-desk-reservations">رزرو میزهای منعطف</a></li>
                 </ul>
             </li>
@@ -74,7 +74,7 @@
                     <i class="iconoir-lock"></i>
                     کمدها
                 </a>
-                <ul class="collapse" id="lockers">
+                <ul class="collapse" id="lockers" data-bs-parent="#app-simple-bar">
                     <li><a href="/lockers">لیست کمدها</a></li>
                     <li><a href="/lockers/create">افزودن کمد</a></li>
                 </ul>
@@ -84,7 +84,7 @@
                     <i class="iconoir-home"></i>
                     اتاق‌ها
                 </a>
-                <ul class="collapse" id="rooms">
+                <ul class="collapse" id="rooms" data-bs-parent="#app-simple-bar">
                     <li><a href="/meeting-rooms">لیست اتاق‌های جلسات</a></li>
                     <li><a href="/meeting-rooms/create">افزودن اتاق جلسه</a></li>
                     <li><a href="/meeting-reservations">رزرو اتاق‌های جلسات</a></li>
@@ -97,7 +97,7 @@
                     <i class="iconoir-credit-card"></i>
                     تراکنش‌ها
                 </a>
-                <ul class="collapse" id="transactions">
+                <ul class="collapse" id="transactions" data-bs-parent="#app-simple-bar">
                     <li><a href="/transactions">لیست تراکنش‌ها</a></li>
                     <li><a href="/transactions/create">افزودن تراکنش</a></li>
                 </ul>
@@ -107,7 +107,7 @@
                     <i class="iconoir-percentage-circle"></i>
                     تخفیف‌ها
                 </a>
-                <ul class="collapse" id="discounts">
+                <ul class="collapse" id="discounts" data-bs-parent="#app-simple-bar">
                     <li><a href="/discounts">لیست تخفیف‌ها</a></li>
                     <li><a href="/discounts/create">افزودن تخفیف</a></li>
                 </ul>
@@ -117,7 +117,7 @@
                     <i class="iconoir-bell"></i>
                     اعلان‌ها
                 </a>
-                <ul class="collapse" id="notifications">
+                <ul class="collapse" id="notifications" data-bs-parent="#app-simple-bar">
                     <li><a href="/notifications">لیست اعلان‌ها</a></li>
                     <li><a href="/notifications/create">ارسال اعلان</a></li>
                 </ul>
@@ -127,7 +127,7 @@
                     <i class="iconoir-shield-check"></i>
                     مجوزها
                 </a>
-                <ul class="collapse" id="permissions">
+                <ul class="collapse" id="permissions" data-bs-parent="#app-simple-bar">
                     <li><a href="/permissions">لیست مجوزها</a></li>
                     <li><a href="/permissions/create">افزودن مجوز</a></li>
                 </ul>
