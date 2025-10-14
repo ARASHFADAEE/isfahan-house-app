@@ -26,7 +26,7 @@
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label class="form-label">شعبه</label>
-                        <select class="form-select" wire:model.lazy="branch_id">
+                        <select class="form-select" wire:model.live="branch_id">
                             <option value="">انتخاب کنید</option>
                             @foreach($branches as $branch)
                                 <option value="{{ $branch->id }}">{{ $branch->name }}</option>
@@ -50,6 +50,31 @@
                         @error('status')<div class="text-danger small">{{ $message }}</div>@enderror
                     </div>
                 </div>
+
+                @if ($status === 'reserved')
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label class="form-label">اشتراک فعال (هم‌شعبه)</label>
+                            <select class="form-select" wire:model.live="subscription_id">
+                                <option value="">— انتخاب اشتراک —</option>
+                                @forelse($subscriptions as $sub)
+                                    <option value="{{ $sub->id }}">#{{ $sub->id }} — {{ $sub->user?->name ?? 'کاربر' }} — {{ $sub->branch?->name ?? 'شعبه' }}</option>
+                                @empty
+                                    <option value="" disabled>اشتراک فعالی برای شعبه انتخاب‌شده یافت نشد</option>
+                                @endforelse
+                            </select>
+                            @error('subscription_id')<div class="text-danger small">{{ $message }}</div>@enderror
+                            @if (empty($branch_id))
+                                <div class="text-muted small mt-1">ابتدا شعبه را انتخاب کنید تا اشتراک‌های فعال همان شعبه بارگذاری شود.</div>
+                            @endif
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">کاربر اشتراک</label>
+                            <input type="text" class="form-control" value="{{ optional($subscriptions->firstWhere('id', $subscription_id))->user?->name }}" disabled>
+                        </div>
+                    </div>
+                @endif
 
                 <div class="mt-4">
                     <button type="submit" class="btn btn-primary">ذخیره تغییرات</button>

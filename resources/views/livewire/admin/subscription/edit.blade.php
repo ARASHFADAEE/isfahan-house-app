@@ -114,4 +114,63 @@
             </form>
         </div>
     </div>
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="mb-3">اختصاص میز به این اشتراک</h5>
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">انتخاب میز آزاد در شعبه</label>
+                    <select class="form-select" wire:model.lazy="desk_id">
+                        <option value="">انتخاب کنید</option>
+                        @foreach($availableDesks as $d)
+                            <option value="{{ $d->id }}">میز {{ $d->desk_number }} ({{ $d->branch?->name }})</option>
+                        @endforeach
+                    </select>
+                    @error('desk_id')<div class="text-danger small">{{ $message }}</div>@enderror
+                </div>
+                <div class="col-md-6 align-self-end">
+                    <button type="button" class="btn btn-outline-primary" wire:click="assignDesk">اختصاص میز</button>
+                </div>
+            </div>
+
+            <hr class="my-4" />
+
+            <h6 class="mb-2">میزهای اختصاص‌یافته به این اشتراک</h6>
+            <div class="table-responsive">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>شماره میز</th>
+                            <th>شعبه</th>
+                            <th>وضعیت</th>
+                            <th>عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($assignedDesks as $d)
+                            <tr>
+                                <td>{{ $d->id }}</td>
+                                <td>{{ $d->desk_number }}</td>
+                                <td>{{ $d->branch?->name }}</td>
+                                <td>{{ $d->status === 'reserved' ? 'رزرو شده' : $d->status }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-light-danger"
+                                        wire:click="releaseDesk({{ $d->id }})"
+                                        onclick="confirm('آیا از آزاد کردن این میز مطمئن هستید؟') || event.stopImmediatePropagation()">
+                                        آزاد کردن
+                                    </button>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="text-muted">هنوز میزی اختصاص داده نشده است.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>

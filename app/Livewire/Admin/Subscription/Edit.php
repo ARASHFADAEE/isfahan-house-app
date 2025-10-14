@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Branch;
 use App\Models\SubscriptionType;
 use App\Models\Discount;
+use App\Models\Desk;
 use Illuminate\Support\Carbon;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
@@ -34,6 +35,11 @@ class Edit extends Component
     public $branches = [];
     public $discounts = [];
 
+    // Desk assignment state
+    public ?int $desk_id = null;
+    public $availableDesks = [];
+    public $assignedDesks = [];
+
     public function mount(Subscription $subscription): void
     {
         $this->subscription = $subscription;
@@ -51,6 +57,8 @@ class Edit extends Component
         $this->types = SubscriptionType::orderBy('name')->get();
         $this->branches = Branch::orderBy('name')->get();
         $this->discounts = Discount::orderBy('id','desc')->get();
+
+        $this->loadDeskData();
     }
 
     protected function rules(): array
@@ -155,6 +163,100 @@ class Edit extends Component
                 ->addDays((int) $type->duration_days)
                 ->format('Y-m-d\TH:i');
         }
+    }
+
+    private function loadDeskData(): void
+    {
+        if ($this->branch_id) {
+            $this->availableDesks = Desk::query()
+                ->where('branch_id', $this->branch_id)
+                ->where('status', 'available')
+                ->orderBy('desk_number')
+                ->get();
+        } else {
+            $this->availableDesks = collect();
+        }
+
+        $this->assignedDesks = Desk::query()
+            ->where('subscription_id', $this->subscription->id)
+            ->orderBy('desk_number')
+            ->get();
+    }
+
+    public function updatedBranchId(): void
+    {
+        $this->loadDeskData();
+    }
+
+    public function assignDesk(): void
+    {
+        if (!$this->user_id) {
+            $this->addError('desk_id', 'ابتدا کاربر اشتراک را انتخاب کنید.');
+            return;
+        }
+
+        $this->validate([
+            'desk_id' => ['required', 'exists:desks,id'],
+        ], [
+            'desk_id.required' => 'انتخاب میز الزامی است.',
+            'desk_id.exists' => 'میز انتخاب‌شده معتبر نیست.',
+        ]);
+
+        $desk = Desk::query()
+            ->where('id', $this->desk_id)
+            ->where('branch_id', $this->branch_id)
+            ->first();
+
+        if (!$desk) {
+            $this->addError('desk_id', 'این میز متعلق به شعبه انتخاب‌شده نیست.');
+            return;
+        }
+
+        if ($desk->status !== 'available') {
+            $this->addError('desk_id', 'این میز در حال حاضر قابل اختصاص نیست.');
+            return;
+        }
+
+        // Ensure only one desk is assigned to this subscription by releasing previous ones
+        Desk::query()
+            ->where('subscription_id', $this->subscription->id)
+            ->update([
+                'status' => 'available',
+                'user_id' => null,
+                'subscription_id' => null,
+            ]);
+
+        $desk->update([
+            'status' => 'reserved',
+            'user_id' => $this->user_id,
+            'subscription_id' => $this->subscription->id,
+        ]);
+
+        $this->desk_id = null;
+        $this->loadDeskData();
+        session()->flash('success', 'میز با موفقیت به این اشتراک اختصاص یافت.');
+    }
+
+    public function releaseDesk(int $deskId): void
+    {
+        $desk = Desk::query()
+            ->where('id', $deskId)
+            ->where('subscription_id', $this->subscription->id)
+            ->first();
+
+        if (!$desk) {
+            session()->flash('success', 'میزی برای آزادسازی یافت نشد یا متعلق به این اشتراک نیست.');
+            return;
+        }
+
+        $desk->update([
+            'status' => 'available',
+            'user_id' => null,
+            'subscription_id' => null,
+        ]);
+
+        $this->loadDeskData();
+        session()->flash('success', 'میز با موفقیت آزاد شد.');
     }
 
     public function update(): void
