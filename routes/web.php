@@ -16,6 +16,17 @@ use App\Livewire\Admin\SubscriptionType\Edit as SubscriptionTypeEdit;
 use App\Livewire\Admin\Desk\Index as DeskIndex;
 use App\Livewire\Admin\Desk\Create as DeskCreate;
 use App\Livewire\Admin\Desk\Edit as DeskEdit;
+use App\Livewire\Admin\FlexibleDeskReservation\Index as FlexibleDeskReservationIndex;
+use App\Livewire\Admin\Locker\Index as LockerIndex;
+use App\Livewire\Admin\Locker\Create as LockerCreate;
+use App\Livewire\Admin\Locker\Edit as LockerEdit;
+use App\Livewire\Admin\PrivateRoom\Index as PrivateRoomIndex;
+use App\Livewire\Admin\PrivateRoom\Create as PrivateRoomCreate;
+use App\Livewire\Admin\PrivateRoom\Edit as PrivateRoomEdit;
+use App\Livewire\Admin\MeetingRoom\Index as MeetingRoomIndex;
+use App\Livewire\Admin\MeetingRoom\Create as MeetingRoomCreate;
+use App\Livewire\Admin\MeetingReservation\Create as MeetingReservationCreate;
+use App\Livewire\Admin\MeetingReservation\Index as MeetingReservationIndex;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -55,3 +66,24 @@ Route::get('/subscription-types/{subscriptionType}/edit', SubscriptionTypeEdit::
 Route::get('/desks', DeskIndex::class)->name('admin.desks.index');
 Route::get('/desks/create', DeskCreate::class)->name('admin.desks.create');
 Route::get('/desks/{desk}/edit', DeskEdit::class)->name('admin.desks.edit');
+
+// Lockers management
+Route::get('/lockers', LockerIndex::class)->name('admin.lockers.index');
+Route::get('/lockers/create', LockerCreate::class)->name('admin.lockers.create');
+Route::get('/lockers/{locker}/edit', LockerEdit::class)->name('admin.lockers.edit');
+
+// Flexible desk reservations
+Route::get('/flexible-desk-reservations', FlexibleDeskReservationIndex::class)->name('admin.flexible_desk_reservations.index');
+
+// Meeting rooms management
+Route::get('/meeting-rooms', MeetingRoomIndex::class)->name('admin.meeting_rooms.index');
+Route::get('/meeting-rooms/create', MeetingRoomCreate::class)->name('admin.meeting_rooms.create');
+
+// Admin meeting reservations
+Route::get('/meeting-reservations', MeetingReservationIndex::class)->name('admin.meeting_reservations.index');
+Route::get('/meeting-reservations/create', MeetingReservationCreate::class)->name('admin.meeting_reservations.create');
+
+// Private rooms (monthly) management
+Route::get('/private-rooms', PrivateRoomIndex::class)->name('admin.private_rooms.index');
+Route::get('/private-rooms/create', PrivateRoomCreate::class)->name('admin.private_rooms.create');
+Route::get('/private-rooms/{privateRoom}/edit', PrivateRoomEdit::class)->name('admin.private_rooms.edit');

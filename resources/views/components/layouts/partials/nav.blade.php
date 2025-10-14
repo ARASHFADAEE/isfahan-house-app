@@ -66,7 +66,7 @@
                 <ul class="collapse {{ request()->routeIs('admin.desks.*') ? 'show' : '' }}" id="desks" data-bs-parent="#app-simple-bar">
                     <li><a href="{{ route('admin.desks.index') }}">لیست میزها</a></li>
                     <li><a href="{{ route('admin.desks.create') }}">افزودن میز</a></li>
-                    <li><a href="/flexible-desk-reservations">رزرو میزهای منعطف</a></li>
+                    <li><a href="{{ route('admin.flexible_desk_reservations.index') }}">رزرو میزهای منعطف</a></li>
                 </ul>
             </li>
             <li>
@@ -75,21 +75,30 @@
                     کمدها
                 </a>
                 <ul class="collapse" id="lockers" data-bs-parent="#app-simple-bar">
-                    <li><a href="/lockers">لیست کمدها</a></li>
-                    <li><a href="/lockers/create">افزودن کمد</a></li>
+                    <li><a href="{{ route('admin.lockers.index') }}">لیست کمدها</a></li>
+                    <li><a href="{{ route('admin.lockers.create') }}">افزودن کمد</a></li>
                 </ul>
             </li>
             <li>
-                <a aria-expanded="false" class="" data-bs-toggle="collapse" href="#rooms">
+                <a aria-expanded="{{ request()->routeIs('admin.meeting_rooms.*') || request()->routeIs('admin.meeting_reservations.*') ? 'true' : 'false' }}" class="" data-bs-toggle="collapse" href="#meeting-rooms">
                     <i class="iconoir-home"></i>
-                    اتاق‌ها
+                    اتاق‌های جلسات
                 </a>
-                <ul class="collapse" id="rooms" data-bs-parent="#app-simple-bar">
-                    <li><a href="/meeting-rooms">لیست اتاق‌های جلسات</a></li>
-                    <li><a href="/meeting-rooms/create">افزودن اتاق جلسه</a></li>
-                    <li><a href="/meeting-reservations">رزرو اتاق‌های جلسات</a></li>
-                    <li><a href="/private-rooms">لیست اتاق‌های اختصاصی</a></li>
-                    <li><a href="/private-rooms/create">افزودن اتاق اختصاصی</a></li>
+                <ul class="collapse {{ request()->routeIs('admin.meeting_rooms.*') || request()->routeIs('admin.meeting_reservations.*') ? 'show' : '' }}" id="meeting-rooms" data-bs-parent="#app-simple-bar">
+                    <li><a href="{{ route('admin.meeting_rooms.index') }}">لیست اتاق‌های جلسات</a></li>
+                    <li><a href="{{ route('admin.meeting_rooms.create') }}">افزودن اتاق جلسه</a></li>
+                    <li><a href="{{ route('admin.meeting_reservations.index') }}">لیست رزروهای اتاق جلسات</a></li>
+                    <li><a href="{{ route('admin.meeting_reservations.create') }}">ایجاد رزرو اتاق جلسات</a></li>
+                </ul>
+            </li>
+            <li>
+                <a aria-expanded="{{ request()->routeIs('admin.private_rooms.*') ? 'true' : 'false' }}" class="" data-bs-toggle="collapse" href="#private-rooms">
+                    <i class="iconoir-home"></i>
+                    اتاق‌های اختصاصی
+                </a>
+                <ul class="collapse {{ request()->routeIs('admin.private_rooms.*') ? 'show' : '' }}" id="private-rooms" data-bs-parent="#app-simple-bar">
+                    <li><a href="{{ route('admin.private_rooms.index') }}">لیست اتاق‌های اختصاصی</a></li>
+                    <li><a href="{{ route('admin.private_rooms.create') }}">افزودن اتاق اختصاصی</a></li>
                 </ul>
             </li>
             <li>

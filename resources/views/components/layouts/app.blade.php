@@ -63,6 +63,9 @@
     <!-- Responsive css-->
     <link href="{{ asset('panel/assets/css/responsive.css') }}" rel="stylesheet" type="text/css" />
 
+    {{-- Page-level styles --}}
+    @stack('styles')
+
     <script>
       function isRTL() {
         return document.documentElement.dir === "rtl";
@@ -72,9 +75,7 @@
 
   <body class="rtl">
     <div class="app-wrapper">
-      <div class="loader-wrapper">
-        <div class="loader_25"></div>
-      </div>
+
 
       <!-- Menu Navigation starts -->
       @include('components.layouts.partials.nav')
@@ -154,5 +155,8 @@
 
     <!-- App js-->
     <script src="{{ asset('panel/assets/js/script.js') }}"></script>
+
+    {{-- Page-level scripts --}}
+    @stack('scripts')
   </body>
 </html>
