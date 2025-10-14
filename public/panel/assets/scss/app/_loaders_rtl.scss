@@ -1,0 +1,409 @@
+// >>-- 21 Loader css start --<<
+
+.rtl {
+	.loader-wrapper {
+		right: 0;
+	}
+
+	// Loader css
+
+	@for $i from 1 through 10 {
+		.loader_#{$i}:before {
+			content: "در حال بارگذاری...";
+		}
+	}
+
+	$loaders-single: 14, 21, 22, 23, 24, 25, 26, 28, 32, 33, 34;
+	$loaders-double: 11, 12, 13, 15, 29, 30, 31, 35, 36, 37;
+	$ltr-only: 16, 17, 18, 19, 20;
+
+	@each $i in $loaders-single {
+		.loader_#{$i}:before {
+			content: "در حال بارگذاری...";
+		}
+	}
+
+	@each $i in $loaders-double {
+
+		.loader_#{$i}:before,
+		.loader_#{$i}:after {
+			content: "در حال بارگذاری...";
+		}
+	}
+
+	@each $i in $ltr-only {
+		.loader_#{$i} {
+			direction: ltr;
+		}
+	}
+
+
+	.loader_2 {
+		background-position: bottom right;
+	}
+
+	.loader_3 {
+		padding: 0 0 8px 5px;
+		background: repeating-linear-gradient(90deg, rgba(var(--dark)) 0 8%, rgb(var(--success)) 0 10%) 200% 100%/200% 3px no-repeat;
+		animation: l3rtl 2s steps(6) infinite;
+
+	}
+
+	@keyframes l3rtl {
+		from {
+			background-position: -80% 100%
+		}
+
+		to {
+			background-position: 0% 100%
+		}
+	}
+
+
+	.loader_4 {
+		font-family: var(--font-sans);
+		clip-path: inset(0 0 0 2ch);
+		animation: l4rtl 1s steps(4) infinite;
+	}
+
+	@keyframes l4rtl {
+		to {
+			clip-path: inset(0 0 0 -1ch)
+		}
+	}
+
+
+	.loader_5 {
+		clip-path: inset(0 0 0 100%);
+		animation: l5rtl 2s steps(11) infinite;
+	}
+
+	@keyframes l5rtl {
+		to {
+			clip-path: inset(0 0 0 -1ch)
+		}
+	}
+
+
+	.loader_6 {
+		text-shadow: 0 0 rgb(var(--light)), -17ch 0 rgb(var(--light));
+		animation: l6rtl 2s infinite linear;
+	}
+
+	@keyframes l6rtl {
+		to {
+			text-shadow: 17ch 0 var(--c), 0ch 0 var(--c)
+		}
+	}
+
+
+	.loader_7 {
+		background: linear-gradient(-90deg, rgb(var(--success)) calc(50% + 0.5ch), rgb(var(--dark)) 0) left / calc(200% + 1ch) 100%;
+		animation: l7rtl 2s infinite steps(11);
+		-webkit-background-clip: text;
+		background-clip: text;
+	}
+
+	@keyframes l7rtl {
+		to {
+			background-position: right
+		}
+	}
+
+
+	.loader_8 {
+		animation: l8rtl 2s infinite steps(11);
+	}
+
+	@keyframes l8rtl {
+		from {
+			background-position: left
+		}
+
+		to {
+			background-position: right
+		}
+	}
+
+
+	.loader_9 {
+		animation: l9rtl 5s infinite cubic-bezier(0.3, 1, 0, 1);
+	}
+
+	@keyframes l9rtl {
+		0% {
+			text-shadow: 0 0 rgb(var(--primary)), 17ch 0 rgb(var(--success)), 22ch 0 rgb(var(--danger)), 33ch 0 rgb(var(--info)), 44ch 0 rgb(var(--primary))
+		}
+
+		25% {
+			text-shadow: -17ch 0 rgb(var(--primary)), 0ch 0 rgb(var(--success)), 17ch 0 rgb(var(--danger)), 22ch 0 rgb(var(--info)), 33ch 0 rgb(var(--primary))
+		}
+
+		50% {
+			text-shadow: -22ch 0 rgb(var(--primary)), -17ch 0 rgb(var(--success)), 0ch 0 rgb(var(--danger)), 17ch 0 rgb(var(--info)), 22ch 0 rgb(var(--primary))
+		}
+
+		75% {
+			text-shadow: -33ch 0 rgb(var(--primary)), -22ch 0 rgb(var(--success)), -17ch 0 rgb(var(--danger)), 0ch 0 rgb(var(--info)), 17ch 0 rgb(var(--primary))
+		}
+
+		100% {
+			text-shadow: -44ch 0 rgb(var(--primary)), -33ch 0 rgb(var(--success)), -22ch 0 rgb(var(--danger)), -17ch 0 rgb(var(--info)), 0ch 0 rgb(var(--primary))
+		}
+	}
+
+
+	.loader_10 {
+		background: linear-gradient(90deg, #000 25%, rgb(var(--secondary)) 0 50%, rgb(var(--danger)) 0 75%, rgb(var(--info)) 0) 0 0/400% 100%;
+		-webkit-background-clip: text;
+		background-clip: text;
+		animation: l10 5s infinite cubic-bezier(0.3, 1, 0, 1) reverse;
+	}
+
+
+	.loader_12:before,
+	.loader_12:after {
+		text-shadow: 16ch 0 0;
+		--s: -1;
+	}
+
+	.loader_12:after {
+		text-shadow: -16ch 0 0;
+		--s: 1;
+	}
+
+
+	.loader_13:before,
+	.loader_13:after {
+		text-shadow: 16ch 0 0;
+		animation: l13 2s infinite;
+		--s: -1;
+	}
+
+	.loader_13:after {
+		text-shadow: -16ch 0 0;
+		--s: 1;
+		animation-delay: 1s;
+	}
+
+
+
+
+	.loader_14 {
+		text-shadow: 0 0 0 #000, -16ch 0 0 #000;
+		background: linear-gradient(rgb(var(--secondary)) 0 0) bottom right/0% 3px no-repeat;
+		animation: l14rtl 1.5s infinite;
+	}
+
+	@keyframes l14rtl {
+		80% {
+			text-shadow: 0 0 0 rgb(var(--primary)), -16ch 0 0 rgb(var(--primary));
+			background-size: 100% 3px
+		}
+
+		100% {
+			text-shadow: 16ch 0 0 rgb(var(--primary)), 0 0 0 rgb(var(--primary))
+		}
+	}
+
+
+	.loader_21 {
+		background: linear-gradient(-90deg, rgba(var(--warning)) 50%, rgba(var(--warning), .1) 0) left/200% 100%;
+		animation: l21rtl 2s infinite linear;
+	}
+
+	.loader_21:before {
+		background-image: linear-gradient(-90deg, rgba(var(--white), 1) 50%, rgba(var(--warning)) 0);
+		-webkit-background-clip: text;
+		background-clip: text;
+	}
+
+	@keyframes l21rtl {
+		100% {
+			background-position: right
+		}
+	}
+
+
+	.loader_22 {
+		font-size: 27px;
+		background: linear-gradient(-135deg, #0000 calc(50% - 0.5em), rgba(var(--success), .1) 0 calc(50% + 0.5em), #0000 0) left/300% 100%;
+		animation: l22rtl 2s infinite;
+	}
+
+	.loader_22:before {
+		background-image: linear-gradient(-135deg, rgba(var(--success)) calc(50% - 0.5em), rgba(var(--dark)) 0 calc(50% + 0.5em), rgba(var(--success)) 0);
+		-webkit-background-clip: text;
+		background-clip: text;
+	}
+
+	@keyframes l22rtl {
+		100% {
+			background-position: right
+		}
+	}
+
+
+	.loader_23 {
+		font-size: 27px;
+	}
+
+	.loader_23:before {
+		text-shadow: 0 0 0 rgba(var(--danger)), -18.5ch 0 0 #fff, -24ch 0 0 rgba(var(--danger));
+		background: linear-gradient(-90deg, rgba(var(--danger), .1) calc(100%/3), rgba(var(--danger)) 0 calc(2*100%/3), rgba(var(--danger), .1) 0) right/300% 100%;
+		animation: l23rtl 2s infinite;
+	}
+
+	@keyframes l23rtl {
+		50% {
+			background-position: center;
+			text-shadow: 18.5ch 0 0 rgba(var(--danger)), 0 0 0 #fff, -18.5ch 0 0 rgba(var(--danger))
+		}
+
+		100% {
+			background-position: left;
+			text-shadow: 24ch 0 0 rgba(var(--danger)), 18.5ch 0 0 #fff, 0 0 0 rgba(var(--danger))
+		}
+	}
+
+
+	.loader_26,
+	.loader_27,
+	.loader_28,
+	.loader_29,
+	.loader_30,
+	.loader_31,
+	.loader_32,
+	.loader_33,
+	.loader_34,
+	.loader_35,
+	.loader_36,
+	.loader_37,
+	.loader_25 {
+		font-size: 27px;
+	}
+
+	.loader_27:before {
+		content: "درحال";
+		animation: l27 2s infinite;
+		color: rgb(var(--dark));
+	}
+
+	.loader_27:after {
+		content: " بارگذاری...";
+
+	}
+
+
+	/* HTML: <div class="loader"></div> */
+	.loader_30 {
+		font-family: var(--font-sans);
+	}
+
+	.loader_31 {
+		--w: 16ch;
+	}
+
+
+	.loader_33 {
+		--w: 16ch;
+	}
+
+	.loader_33.ltr {
+		font-size: 30px;
+		--w: 10ch;
+		direction: ltr;
+
+		&:before {
+			content: "Loading...";
+		}
+	}
+
+
+	.loader_34:before {
+		animation: l34rtl 1s infinite alternate;
+	}
+
+	@keyframes l34rtl {
+
+		0%,
+		15%,
+		75%,
+		100% {
+			content: "در حال بارگذاری...";
+			color: rgb(var(--danger));
+		}
+
+		20% {
+			content: "در حال بارگذار ی...";
+		}
+
+		25% {
+			content: "در حال بارگ ذا ری...";
+		}
+
+		30% {
+			content: "در حال با رگذاری...";
+		}
+
+		35% {
+			content: "در حال بارگذا ری..";
+		}
+
+		40% {
+			content: "در حال بارگ ذاری..";
+		}
+
+		45% {
+			content: "درحال بار گذ اری...";
+		}
+
+		50% {
+			content: "در حال با رگذا ری...";
+		}
+
+		55% {
+			content: "درح ال بار گذاری...";
+		}
+
+		60% {
+			content: "د ر حال بارگذاری...";
+		}
+
+		65% {
+			content: "درحال بارگ ذ اری...";
+		}
+
+		70% {
+			content: "د ر حا ل با رگذاری..";
+		}
+	}
+
+
+	.loader_36:before,
+	.loader_36:after {
+		-webkit-mask-size: 1.8ch 100%, 100% 100%;
+	}
+
+	.loader_37:before,
+	.loader_37:after {
+		animation: l37 1.5s infinite;
+	}
+
+
+	.loader_38:before {
+		content: "در حال بارگذاری...\Aحال دربالگذا...\Aهالبذاری...\Aدرح برگذری...\Aنابل در زاری...\Aحال بارگذاری...";
+	}
+
+
+	.loader_39:not(.ltr):before {
+		content: "صبرکن...\A⌰برکن...\A⌰⍜رکن...\A⌰⍜⏃کن...\A⌰⍜⏃⎅ن...\A⌰⍜⏃⎅⟟...\A⌰⍜⏃⎅⟟⋏..\A⌰⍜⏃⎅⟟⋏☌.\A⌰⍜⏃⎅⟟⋏☌⟒";
+		animation: l39 1s infinite steps(9) alternate;
+	}
+
+	.loader_40 {
+		direction: ltr;
+	}
+}
+
+// >>-- 21 Loader css end --<<
