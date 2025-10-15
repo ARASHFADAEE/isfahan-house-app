@@ -5,6 +5,7 @@ namespace App\Livewire\Admin;
 use App\Models\Subscription;
 use App\Models\Setting;
 use Illuminate\Support\Carbon;
+use Hekmatinasser\Verta\Verta;
 use Livewire\Component;
 
 class HeaderNotifications extends Component
@@ -37,7 +38,7 @@ class HeaderNotifications extends Component
                     'اشتراک کاربر %s در شعبه %s در تاریخ %s منقضی شده است.',
                     trim(($s->user?->first_name ?? '') . ' ' . ($s->user?->last_name ?? '')) ?: ($s->user?->name ?? 'نامشخص'),
                     $s->branch?->name ?? 'نامشخص',
-                    $end->format('Y/m/d H:i')
+                    Verta::instance($end)->format('Y/m/d H:i')
                 ),
                 'date_badge' => $end->diffForHumans($now, ['syntax' => Carbon::DIFF_ABSOLUTE]) . ' پیش',
                 'link' => route('admin.subscriptions.edit', $s->id),
@@ -64,7 +65,7 @@ class HeaderNotifications extends Component
                 'message' => sprintf(
                     'اشتراک کاربر %s تا %s منقضی می‌شود. %d روز مانده.',
                     trim(($s->user?->first_name ?? '') . ' ' . ($s->user?->last_name ?? '')) ?: ($s->user?->name ?? 'نامشخص'),
-                    $end->format('Y/m/d H:i'),
+                    Verta::instance($end)->format('Y/m/d H:i'),
                     max($daysLeft, 0)
                 ),
                 'date_badge' => 'رو به اتمام',

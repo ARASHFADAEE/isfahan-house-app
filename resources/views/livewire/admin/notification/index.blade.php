@@ -66,7 +66,7 @@
                 <td>{{ $n->event_type }}</td>
                 <td>{{ $n->status }}</td>
                 <td>{{ \Illuminate\Support\Str::limit($n->message, 80) }}</td>
-                <td>{{ \Illuminate\Support\Carbon::parse($n->created_at)->format('Y-m-d H:i') }}</td>
+                <td>{{ \Hekmatinasser\Verta\Verta::instance($n->created_at)->format('Y/m/d H:i') }}</td>
               </tr>
             @empty
               <tr>

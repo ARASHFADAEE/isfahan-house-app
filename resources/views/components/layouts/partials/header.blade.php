@@ -139,8 +139,7 @@
                         href="#"
                         role="button">
                         <i class="iconoir-bell"></i>
-                        <span
-                          class="position-absolute translate-middle p-1 bg-success border border-light rounded-circle animate__animated animate__fadeIn animate__infinite animate__slower"></span>
+                        @livewire('admin.header-notification-badge')
                       </a>
                       <div
                         aria-labelledby="notificationcanvasRightLabel"
