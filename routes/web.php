@@ -33,6 +33,7 @@ use App\Livewire\Admin\Discount\Index as DiscountIndex;
 use App\Livewire\Admin\Discount\Create as DiscountCreate;
 use App\Livewire\Admin\Notification\Index as NotificationIndex;
 use App\Livewire\Admin\Notification\Create as NotificationCreate;
+use App\Livewire\Admin\Setting\Index as SettingIndex;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -105,3 +106,6 @@ Route::get('/discounts/create', DiscountCreate::class)->name('admin.discounts.cr
 // Notifications
 Route::get('/notifications', NotificationIndex::class)->name('admin.notifications.index');
 Route::get('/notifications/create', NotificationCreate::class)->name('admin.notifications.create');
+
+// Settings
+Route::get('/settings', SettingIndex::class)->name('admin.settings.index');

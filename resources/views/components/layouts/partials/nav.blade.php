@@ -1,7 +1,7 @@
 <nav>
     <div class="app-logo">
-        <a class="logo d-inline-block" href="/dashboard">
-            <img alt="لوگو" src="{{ asset('panel/assets/images/logo/1.png') }}" />
+        <a class="logo d-inline-block" href="{{ route('admin.dashboard.index') }}">
+            <img alt="لوگو" src="{{ \App\Models\Setting::get('branding.logo_url', asset('panel/assets/images/logo/1.png')) }}" />
         </a>
         <span class="bg-light-primary toggle-semi-nav">
             <i class="ti ti-chevrons-right f-s-20"></i>
@@ -142,7 +142,7 @@
                 </ul>
             </li>
             <li class="no-sub">
-                <a class="" href="/settings">
+                <a class="{{ request()->routeIs('admin.settings.index') ? 'active' : '' }}" href="{{ route('admin.settings.index') }}">
                     <i class="iconoir-settings"></i>
                     تنظیمات
                 </a>
