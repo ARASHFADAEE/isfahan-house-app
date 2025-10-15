@@ -6,6 +6,23 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
+    <script>
+      // Apply theme from localStorage as early as possible to avoid flash
+      (function () {
+        try {
+          var themeName = 'La-Theme';
+          var mode = localStorage.getItem(themeName + '-theme-mode') || 'light';
+          // Hide body until theme class is applied
+          var style = document.createElement('style');
+          style.textContent = 'body{visibility:hidden}';
+          document.head.appendChild(style);
+          // Expose for later removal
+          window.__themeHideStyle = style;
+          window.__themeMode = mode;
+        } catch (e) {}
+      })();
+    </script>
+
     <link href="{{ asset('panel/assets/images/logo/favicon.png') }}" rel="icon" type="image/x-icon" />
     <link href="{{ asset('panel/assets/images/logo/favicon.png') }}" rel="shortcut icon" type="image/x-icon" />
         <title>{{ $title ?? 'Page Title' }}</title>
@@ -74,6 +91,22 @@
   </head>
 
   <body class="rtl">
+    <script>
+      // Reveal body with correct theme class immediately after body opens
+      (function () {
+        try {
+          var mode = window.__themeMode || (localStorage.getItem('La-Theme-theme-mode') || 'light');
+          document.body.classList.add(mode);
+          if (window.__themeHideStyle && typeof window.__themeHideStyle.remove === 'function') {
+            window.__themeHideStyle.remove();
+          } else {
+            document.body.style.visibility = 'visible';
+          }
+        } catch (e) {
+          document.body.style.visibility = 'visible';
+        }
+      })();
+    </script>
     <div class="app-wrapper">
 
 

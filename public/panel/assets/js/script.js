@@ -78,10 +78,12 @@ $(document).on('click', '.menu-next', function (e) {
 
 $(function () {
   setUpHorizontalHeader();
-  let themeMode = getLocalStorageItem('theme-mode', 'light')
-  setTimeout(() => {
-    $('body').addClass(`${themeMode}`)
-  }, 1000);
+  // Use localStorage-only; body class may already be set by early inline script
+  var themeMode = getLocalStorageItem('theme-mode', 'light');
+  var body = document.body;
+  if (!body.classList.contains('dark') && !body.classList.contains('light')) {
+    body.classList.add(themeMode);
+  }
 });
 
 

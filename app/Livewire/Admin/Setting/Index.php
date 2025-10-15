@@ -5,7 +5,6 @@ namespace App\Livewire\Admin\Setting;
 use App\Models\Setting;
 use App\Models\Branch;
 use App\Models\User;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
@@ -149,7 +148,9 @@ class Index extends Component
         if ($this->logo_upload) {
             $filename = 'logo-' . Str::random(10) . '.' . $this->logo_upload->getClientOriginalExtension();
             $path = $this->logo_upload->storeAs('uploads/branding', $filename, 'public');
-            $publicUrl = Storage::disk('public')->url($path);
+            // Build public URL without relying on FilesystemAdapter::url()
+            $basePublicUrl = (string) config('filesystems.disks.public.url', rtrim((string) config('app.url'), '/') . '/storage');
+            $publicUrl = rtrim($basePublicUrl, '/') . '/' . ltrim($path, '/');
             $this->logo_url = $publicUrl;
             Setting::set('branding.logo_url', $publicUrl, 'branding', 'string');
         } elseif (!empty($this->logo_url)) {
