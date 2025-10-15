@@ -114,70 +114,7 @@
                           <p class="mb-0 text-secondary f-s-15 mt-2">داده‌های اخیراً جستجو شده:</p>
                         </div>
                         <div class="offcanvas-body app-scroll p-0">
-                          <div>
-                            <ul class="search-list">
-                              <li class="search-list-item">
-                                <div
-                                  class="h-35 w-35 d-flex-center b-r-15 overflow-hidden bg-light-primary search-list-avtar">
-                                  <i class="ph-duotone ph-gear f-s-20"></i>
-                                </div>
-                                <div class="search-list-content">
-                                  <a href="api.html" target="_blank">
-                                    <h6 class="mb-0 text-dark">مدیریت کاربر</h6>
-                                  </a>
-                                  <p class="f-s-13 mb-0 text-secondary">#RA789</p>
-                                </div>
-                              </li>
-                              <li class="search-list-item">
-                                <div
-                                  class="h-35 w-35 d-flex-center b-r-15 overflow-hidden bg-light-warning search-list-avtar">
-                                  <i class="ph-duotone ph-projector-screen-chart f-s-20"></i>
-                                </div>
-                                <div class="search-list-content">
-                                  <a href="privacy_policy.html" target="_blank">
-                                    <h6 class="mb-0 text-dark">تجسم داده‌ها</h6>
-                                  </a>
-                                  <p class="f-s-13 mb-0 text-secondary">#RY810</p>
-                                </div>
-                              </li>
-                              <li class="search-list-item">
-                                <div
-                                  class="h-35 w-35 d-flex-center b-r-15 overflow-hidden bg-light-danger search-list-avtar">
-                                  <i class="ph-duotone ph-shield-check f-s-20"></i>
-                                </div>
-                                <div class="search-list-content">
-                                  <a href="terms_condition.html" target="_blank">
-                                    <h6 class="mb-0 text-dark">پروتکل‌های امنیتی</h6>
-                                  </a>
-                                  <p class="f-s-13 mb-0 text-secondary">#ATR56</p>
-                                </div>
-                              </li>
-                              <li class="search-list-item">
-                                <div
-                                  class="h-35 w-35 d-flex-center b-r-15 overflow-hidden bg-light-info search-list-avtar">
-                                  <i class="ph-duotone ph-app-window f-s-20"></i>
-                                </div>
-                                <div class="search-list-content">
-                                  <a href="sign_in.html" target="_blank">
-                                    <h6 class="mb-0 text-dark">روش‌های احراز هویت</h6>
-                                  </a>
-                                  <p class="f-s-13 mb-0 text-secondary">#YE615</p>
-                                </div>
-                              </li>
-                              <li class="search-list-item">
-                                <div
-                                  class="h-35 w-35 d-flex-center b-r-15 overflow-hidden bg-light-dark search-list-avtar">
-                                  <i class="ph-duotone ph-table f-s-20"></i>
-                                </div>
-                                <div class="search-list-content">
-                                  <a href="data_table.html" target="_blank">
-                                    <h6 class="mb-0 text-dark">جدول داده</h6>
-                                  </a>
-                                  <p class="f-s-13 mb-0 text-secondary">#YE615</p>
-                                </div>
-                              </li>
-                          </ul>
-                          </div>
+                          <livewire:search-bar />
                           </div>
                       </div>
                     </li>
@@ -258,100 +195,33 @@
                               </div>
                               <div class="mt-2">
                                 <h6 class="mb-0">
-                                  لورا مونالدو
-                                  <img
-                                    alt="instagram-check-mark"
-                                    class="w-20 h-20"
-                                    src="{{ asset('panel/assets/images/profile-app/01.png') }}" />
+                                  {{ trim(((auth()->user()->first_name ?? '') . ' ' . (auth()->user()->last_name ?? ''))) ?: (auth()->user()->name ?? 'کاربر') }}
                                 </h6>
-                                <p class="f-s-12 mb-0 text-secondary">lauradesign@gmail.com</p>
+                                <p class="f-s-12 mb-0 text-secondary">{{ auth()->user()->email ?? '-' }}</p>
                               </div>
                             </li>
 
                             <li>
-                              <a class="f-w-500" href="./profile.html" target="_blank">
+                              <a class="f-w-500" href="{{ auth()->check() ? route('admin.users.edit', ['user' => auth()->id()]) : '#' }}">
                                 <i class="iconoir-user-love pe-1 f-s-20"></i>
                                 جزئیات پروفایل
                               </a>
                             </li>
                             <li>
-                              <a class="f-w-500" href="./setting.html" target="_blank">
+                              <a class="f-w-500" href="{{ route('admin.settings.index') }}">
                                 <i class="iconoir-settings pe-1 f-s-20"></i>
                                 تنظیمات
                               </a>
                             </li>
                             <li class="app-divider-v dotted py-1"></li>
-                            <li>
-                              <a class="f-w-500" href="./setting.html" target="_blank">
-                                <i class="iconoir-eye-closed pe-1 f-s-20"></i>
-                                مخفی‌سازی تنظیمات
-                              </a>
-                            </li>
-                            <li>
-                              <div class="d-flex align-items-center justify-content-between">
-                                <a class="f-w-500" href="#">
-                                  <i class="iconoir-bell-notification pe-1 f-s-20"></i>
-                                  اعلان‌ها
-                                </a>
-                                <div class="flex-shrink-0">
-                                  <div class="form-check form-switch">
-                                    <input
-                                      checked
-                                      class="form-check-input form-check-primary"
-                                      id="basicSwitch"
-                                      type="checkbox" />
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                            <li>
-                              <div class="d-flex align-items-center justify-content-between">
-                                <div>
-                                  <a class="f-w-500" href="#">
-                                    <i class="ph-duotone ph-detective pe-1 f-s-20"></i>
-                                    حالت ناشناس
-                                  </a>
-                                </div>
-                                <div class="flex-shrink-0">
-                                  <div class="form-check form-switch">
-                                    <input
-                                      class="form-check-input form-check-primary"
-                                      id="incognitoSwitch"
-                                      type="checkbox" />
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                            <li class="app-divider-v dotted py-1"></li>
-                            <li>
-                              <a class="f-w-500" href="./faq.html" target="_blank">
-                                <i class="iconoir-help-circle pe-1 f-s-20"></i>
-                                راهنما
-                              </a>
-                            </li>
-                            <li>
-                              <a class="f-w-500" href="./pricing.html" target="_blank">
-                                <i class="iconoir-dollar pe-1 f-s-20"></i>
-                                تعرفه‌ها
-                              </a>
-                            </li>
-                            <li>
-                              <a
-                                class="mb-0 text-secondary f-w-500"
-                                href="./sign_up.html"
-                                target="_blank">
-                                <i class="iconoir-plus pe-1 f-s-20"></i>
-                                افزودن حساب
-                              </a>
-                            </li>
                             <li class="mx-0">
-                              <a
-                                class="mb-0 btn btn-light-danger btn-sm justify-content-center"
-                                href="./sign_in.html"
-                                role="button">
-                                <i class="ph-duotone ph-sign-out pe-1 f-s-20"></i>
-                                خروج
-                              </a>
+                              <form method="POST" action="{{ url('/logout') }}">
+                                @csrf
+                                <button type="submit" class="mb-0 btn btn-light-danger btn-sm justify-content-center">
+                                  <i class="ph-duotone ph-sign-out pe-1 f-s-20"></i>
+                                  خروج
+                                </button>
+                              </form>
                             </li>
                           </ul>
                         </div>

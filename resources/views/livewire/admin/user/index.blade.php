@@ -6,10 +6,31 @@
         <a href="{{ route('admin.users.create') }}" class="btn btn-primary">افزودن کاربر</a>
       </div>
       <div class="col-12">
+        <div class="card mb-3">
+          <div class="card-body">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">جستجو</label>
+                <input type="text" class="form-control" placeholder="نام، ایمیل یا تلفن" wire:model.live.debounce.300ms="search" />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">نقش</label>
+                <select class="form-select" wire:model.live="role">
+                  <option value="">همه نقش‌ها</option>
+                  <option value="user">کاربر</option>
+                  <option value="admin">مدیر</option>
+                  <option value="ceo">مدیرعامل</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
         @if (session('success'))
           <div class="alert alert-success">{{ session('success') }}</div>
         @endif
-        <div class="table-responsive">
+        <div class="table-responsive position-relative" style="z-index: 1;">
           <table class="table">
             <thead>
               <tr>
@@ -44,8 +65,9 @@
             </tbody>
 
           </table>
+        </div>
+        <div class="d-flex justify-content-center mt-3">
           {{ $users->links() }}
-
         </div>
 
       </div>
