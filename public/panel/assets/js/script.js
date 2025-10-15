@@ -155,20 +155,38 @@ new SimpleBar(myElement, { autoHide: true });
 
 // Sidebar active class js
 $(function () {
-  let current = location.pathname;
-  current = current.substring((current.lastIndexOf('/')) + 1);
+  // Match the full pathname to avoid expanding all menus with the same last segment (e.g., "create")
+  var currentPath = location.pathname.replace(/\/+$/, '');
+
   $('.main-nav li a').each(function () {
-    var $this = $(this);
-    if (current === $this.attr("href").split('/').pop()) {
-      if ($this.parent().parent().parent().hasClass("another-level")) {
-        $this.parent().parent().parent().parent().closest('li').children().addClass('show').attr("aria-expanded", "true");
-      }
-      $this.parent().parent().parent().children().addClass('show');
-      $this.parent().parent().parent().children().attr("aria-expanded", "true");
-      $this.parent('li').addClass('active');
+    var $link = $(this);
+    var href = $link.attr('href');
+    if (!href) return;
+
+    // Resolve to pathname, supporting both absolute and relative hrefs
+    var hrefPath;
+    try {
+      hrefPath = new URL(href, location.origin).pathname.replace(/\/+$/, '');
+    } catch (e) {
+      hrefPath = href.replace(/\/+$/, '');
     }
-  })
-})
+
+    if (hrefPath === currentPath) {
+      // Mark the leaf as active
+      $link.closest('li').addClass('active');
+
+      // Expand only its immediate parent collapse and set the corresponding toggler's aria-expanded
+      var $collapse = $link.closest('.collapse');
+      if ($collapse.length) {
+        $collapse.addClass('show');
+        var $toggler = $collapse.prev('a[data-bs-toggle="collapse"]');
+        if ($toggler.length) {
+          $toggler.attr('aria-expanded', 'true');
+        }
+      }
+    }
+  });
+});
 
 // >>-- 07 Loader JS --<<
 $('.loader-wrapper').fadeOut('slow', function () {

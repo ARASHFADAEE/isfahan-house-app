@@ -64,6 +64,7 @@ class Edit extends Component
             'status' => ['required', 'in:available,reserved'],
             'subscription_id' => [
                 Rule::requiredIf(fn () => $this->status === 'reserved'),
+                'nullable',
                 Rule::exists('subscriptions', 'id')->where(function ($q) {
                     if ($this->branch_id) {
                         $q->where('branch_id', $this->branch_id);

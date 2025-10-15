@@ -32,6 +32,7 @@ class Create extends Component
             'subscription_id' => [
                 // Only required if status is reserved
                 Rule::requiredIf(fn () => $this->status === 'reserved'),
+                'nullable',
                 Rule::exists('subscriptions', 'id')->where(function ($q) {
                     if ($this->branch_id) {
                         $q->where('branch_id', $this->branch_id);
@@ -53,6 +54,8 @@ class Create extends Component
             'desk_number.unique' => 'این شماره میز در شعبه انتخاب‌شده از قبل وجود دارد.',
             'status.required' => 'وضعیت میز الزامی است.',
             'status.in' => 'وضعیت انتخاب‌شده معتبر نیست.',
+            'subscription_id.required' => 'انتخاب اشتراک برای میز رزرو شده الزامی است.',
+            'subscription_id.exists' => 'اشتراک انتخاب‌شده معتبر نیست یا با شعبه انتخاب‌شده/وضعیت فعال همخوانی ندارد.',
         ];
     }
 

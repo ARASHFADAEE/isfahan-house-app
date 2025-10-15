@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\MeetingReservation;
 use App\Models\MeetingReservation;
 use App\Models\MeetingRoom;
 use App\Models\User;
+use App\Models\Setting;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
@@ -122,6 +123,12 @@ class Create extends Component
         $c = Carbon::parse($date);
         // Carbon dayOfWeek: 0=Sunday ... 6=Saturday
         $dow = $c->dayOfWeek;
+        // Prefer app settings if available (uniform across days)
+        $open = Setting::get('meeting.business_open');
+        $close = Setting::get('meeting.business_close');
+        if ($open && $close) {
+            return ['start' => $open, 'end' => $close];
+        }
         // Saturday(6) to Wednesday(3): 08:00-21:00
         // Thursday(4) and Friday(5): 08:00-18:00
         if (in_array($dow, [6,0,1,2,3])) { // Sat, Sun, Mon, Tue, Wed
@@ -157,6 +164,8 @@ class Create extends Component
         }
 
         $cursor = $start->copy();
+        $now = Carbon::now();
+        $isToday = Carbon::parse($this->reservation_date_gregorian)->isToday();
         while ($cursor->lt($end)) {
             $candidateStart = $cursor->copy();
             $candidateEnd = $cursor->copy()->addHours($this->duration_hours);
@@ -172,6 +181,12 @@ class Create extends Component
                 if ($candidateStart->lt($oEnd) && $candidateEnd->gt($oStart)) {
                     $overlaps = true; break;
                 }
+            }
+
+            // Skip past times if reserving for today
+            if ($isToday && $candidateStart->lte($now)) {
+                $cursor->addHour();
+                continue;
             }
 
             if (!$overlaps) {
@@ -192,6 +207,29 @@ class Create extends Component
         $this->validate();
         $start = Carbon::parse($this->reservation_date_gregorian.' '.$this->selected_time);
         $end = (clone $start)->addHours($this->duration_hours);
+
+        // Ensure selected time is still available (UI is polling, but double-check)
+        $this->calculateAvailableTimes();
+        if (!in_array($this->selected_time, $this->available_times, true)) {
+            $this->addError('selected_time', 'ساعت انتخاب‌شده دیگر در دسترس نیست. لطفاً یکی از ساعت‌های آزاد را انتخاب کنید.');
+            return;
+        }
+
+        // Prevent booking past times
+        if ($start->lte(Carbon::now())) {
+            $this->addError('selected_time', 'امکان رزرو برای زمان گذشته وجود ندارد.');
+            return;
+        }
+
+        // Safety: enforce within working hours
+        $hours = $this->workingHoursForDate($start->toDateString());
+        $open = Carbon::parse($start->toDateString().' '.$hours['start']);
+        $close = Carbon::parse($start->toDateString().' '.$hours['end']);
+        if ($start->lt($open) || $end->gt($close)) {
+            $this->addError('selected_time', 'زمان انتخاب‌شده خارج از ساعات کاری است.');
+            $this->calculateAvailableTimes();
+            return;
+        }
 
         $conflict = false;
         DB::transaction(function() use (&$conflict, $start, $end) {
