@@ -189,6 +189,41 @@
             </div>
         </div>
 
+        <!-- Users Import (JSON) -->
+        <div class="col-lg-12 mb-4">
+            <div class="card">
+                <div class="card-header">ایمپورت کاربران از JSON</div>
+                <div class="card-body">
+                    @if (session('error'))
+                        <div class="alert alert-danger">{{ session('error') }}</div>
+                    @endif
+                    <div class="mb-3">
+                        <label class="form-label">انتخاب فایل JSON کاربران</label>
+                        <input type="file" class="form-control" wire:model="users_json_upload" accept=".json,application/json">
+                        @error('users_json_upload') <small class="text-danger">{{ $message }}</small> @enderror
+                        <div class="form-text">ساختار فایل مشابه <code>users.json</code> باشد؛ فیلدهای رایج: <code>first_name</code>، <code>last_name</code>، <code>username</code>، <code>email</code>، <code>mobile_user</code>.</div>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <button class="btn btn-light-primary" wire:click="importUsers" wire:loading.attr="disabled">ایمپورت کاربران</button>
+                        <div class="text-secondary" wire:loading wire:target="importUsers">در حال پردازش...</div>
+                    </div>
+
+                    @if (!empty($import_stats))
+                        <div class="mt-3">
+                            <div>ایجاد: {{ $import_stats['created'] ?? 0 }} | بروزرسانی: {{ $import_stats['updated'] ?? 0 }} | رد شده: {{ $import_stats['skipped'] ?? 0 }} | خطا: {{ $import_stats['errors'] ?? 0 }}</div>
+                            @if (!empty($import_stats['error_samples']))
+                                <ul class="text-danger mt-2">
+                                    @foreach ($import_stats['error_samples'] as $msg)
+                                        <li>{{ $msg }}</li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+
         <!-- Meeting / Reservation -->
         <div class="col-lg-6 mb-4">
             <div class="card">

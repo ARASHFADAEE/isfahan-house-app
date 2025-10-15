@@ -4,7 +4,10 @@ namespace App\Livewire\Admin\Setting;
 
 use App\Models\Setting;
 use App\Models\Branch;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\WithFileUploads;
@@ -51,6 +54,10 @@ class Index extends Component
 
     public $branches = [];
 
+    // Users import
+    public $users_json_upload; // temporary upload
+    public array $import_stats = [];
+
     public function mount()
     {
         $this->branches = Branch::query()->orderBy('name')->get();
@@ -96,6 +103,13 @@ class Index extends Component
     {
         $this->validate([
             'logo_upload' => 'nullable|image|max:2048',
+        ]);
+    }
+
+    public function updatedUsersJsonUpload()
+    {
+        $this->validate([
+            'users_json_upload' => 'nullable|file|mimetypes:application/json,text/plain|max:20480',
         ]);
     }
 
@@ -175,6 +189,131 @@ class Index extends Component
         Setting::set('meeting.business_close', $this->meeting_business_close, 'meeting', 'string');
 
         session()->flash('success', 'تنظیمات با موفقیت ذخیره شد.');
+    }
+
+    public function importUsers(): void
+    {
+        $this->validate([
+            'users_json_upload' => 'required|file|mimetypes:application/json,text/plain|max:20480',
+        ]);
+
+        // Allow long-running import for large files
+        @set_time_limit(0);
+        @ini_set('max_execution_time', '0');
+
+        $path = $this->users_json_upload->getRealPath();
+        $raw = @file_get_contents($path);
+        $data = json_decode($raw, true);
+
+        if (!is_array($data)) {
+            session()->flash('error', 'فایل JSON معتبر نیست یا ساختار آن آرایه‌ای از آبجکت‌ها نیست.');
+            return;
+        }
+
+        $created = 0;
+        $updated = 0;
+        $skipped = 0;
+        $errors = 0;
+        $errorSamples = [];
+
+        foreach ($data as $index => $row) {
+            try {
+                if (!is_array($row)) {
+                    $skipped++;
+                    continue;
+                }
+
+                $first = trim((string)($row['first_name'] ?? ''));
+                $last = trim((string)($row['last_name'] ?? ''));
+                $username = trim((string)($row['username'] ?? ''));
+                $email = trim((string)($row['email'] ?? ''));
+                $mobile = trim((string)($row['mobile_user'] ?? ''));
+
+                // Build display name
+                $name = trim($first . ' ' . $last);
+                if ($name === '') {
+                    $name = $username !== '' ? $username : ($mobile !== '' ? $mobile : 'کاربر وارداتی');
+                }
+
+                // Try to find existing user by email or phone
+                $found = null;
+                if ($email !== '') {
+                    $found = User::query()->where('email', $email)->first();
+                }
+                if (!$found && $mobile !== '') {
+                    $found = User::query()->where('phone', $mobile)->first();
+                }
+
+                if ($found) {
+                    $found->first_name = $first !== '' ? $first : ($found->first_name ?? '');
+                    $found->last_name = $last !== '' ? $last : ($found->last_name ?? '');
+                    $found->name = $name;
+                    if ($mobile !== '') {
+                        $found->phone = $mobile;
+                    }
+                    // only update email if provided and unique
+                    if ($email !== '' && $email !== $found->email) {
+                        if (!User::query()->where('email', $email)->exists()) {
+                            $found->email = $email;
+                        }
+                    }
+                    $found->save();
+                    $updated++;
+                    continue;
+                }
+
+                // Prepare unique, valid email for creation
+                $finalEmail = $email;
+                if ($finalEmail === '') {
+                    if ($mobile !== '') {
+                        $finalEmail = 'u' . preg_replace('/[^0-9]/', '', $mobile) . '@import.local';
+                    } elseif ($username !== '') {
+                        $slug = Str::slug($username, '_');
+                        $finalEmail = 'u_' . $slug . '@import.local';
+                    } else {
+                        $finalEmail = 'u_' . Str::random(8) . '@import.local';
+                    }
+                    // ensure uniqueness
+                    $suffix = 1;
+                    $baseEmail = $finalEmail;
+                    while (User::query()->where('email', $finalEmail)->exists()) {
+                        $finalEmail = preg_replace('/@/', '+' . $suffix . '@', $baseEmail, 1);
+                        $suffix++;
+                    }
+                }
+
+                $passwordPlain = Str::random(10);
+
+                User::query()->create([
+                    'name' => $name,
+                    'first_name' => $first,
+                    'last_name' => $last,
+                    'email' => $finalEmail,
+                    'phone' => $mobile !== '' ? $mobile : null,
+                    'password' => Hash::make($passwordPlain),
+                    'role' => 'user',
+                ]);
+                $created++;
+            } catch (\Throwable $e) {
+                $errors++;
+                if (count($errorSamples) < 5) {
+                    $errorSamples[] = "ردیف {$index}: " . $e->getMessage();
+                }
+            }
+        }
+
+        $this->import_stats = [
+            'created' => $created,
+            'updated' => $updated,
+            'skipped' => $skipped,
+            'errors' => $errors,
+            'error_samples' => $errorSamples,
+        ];
+
+        session()->flash('success', "ایمپورت کاربران انجام شد: ایجاد {$created}، بروزرسانی {$updated}، رد شده {$skipped}، خطا {$errors}");
+
+        // Reset file input
+        $this->users_json_upload = null;
     }
 
     public function render()
